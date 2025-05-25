@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: Titanic-Survival-MLOPS
+Version: 0.1
+Author: Kabyik
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: psycopg2
+Requires-Dist: scikit-learn
+Requires-Dist: imbalanced-learn
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Requires-Dist: scipy
+Requires-Dist: redis
+Dynamic: author
+Dynamic: requires-dist

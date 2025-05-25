@@ -1,0 +1,14 @@
+README.md
+setup.py
+Titanic_Survival_MLOPS.egg-info/PKG-INFO
+Titanic_Survival_MLOPS.egg-info/SOURCES.txt
+Titanic_Survival_MLOPS.egg-info/dependency_links.txt
+Titanic_Survival_MLOPS.egg-info/requires.txt
+Titanic_Survival_MLOPS.egg-info/top_level.txt
+config/__init__.py
+config/database_config.py
+config/paths_config.py
+src/__init__.py
+src/custom_exception.py
+src/data_ingestion.py
+src/logger.py

@@ -10,3 +10,4 @@ redis
 flask
 astro-run-dag
 alibi-detect
+prometheus_client

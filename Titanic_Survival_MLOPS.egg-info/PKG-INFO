@@ -13,5 +13,7 @@ Requires-Dist: scipy
 Requires-Dist: redis
 Requires-Dist: flask
 Requires-Dist: astro-run-dag
+Requires-Dist: alibi-detect
+Requires-Dist: prometheus_client
 Dynamic: author
 Dynamic: requires-dist

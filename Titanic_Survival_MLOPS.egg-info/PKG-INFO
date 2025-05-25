@@ -11,5 +11,7 @@ Requires-Dist: matplotlib
 Requires-Dist: seaborn
 Requires-Dist: scipy
 Requires-Dist: redis
+Requires-Dist: flask
+Requires-Dist: astro-run-dag
 Dynamic: author
 Dynamic: requires-dist

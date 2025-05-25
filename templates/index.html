@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚢 Titanic Survival Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-ship"></i> Titanic Survival Predictor</h1>
+                <p>Discover your chances of survival aboard the RMS Titanic using advanced machine learning</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="form-container">
+                <form id="predictionForm" class="prediction-form">
+                    <div class="form-grid">
+                        <!-- Personal Information -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> Personal Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">Full Name</label>
+                                    <input type="text" id="name" name="name" placeholder="Enter your full name">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" name="age" min="0" max="100" step="0.1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sex">Gender</label>
+                                    <select id="sex" name="sex" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Information -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-ticket-alt"></i> Ticket Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="pclass">Passenger Class</label>
+                                    <select id="pclass" name="pclass" required>
+                                        <option value="">Select Class</option>
+                                        <option value="1">First Class (Upper)</option>
+                                        <option value="2">Second Class (Middle)</option>
+                                        <option value="3">Third Class (Lower)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fare">Fare (£)</label>
+                                    <input type="number" id="fare" name="fare" min="0" step="0.01" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="cabin">Cabin Number</label>
+                                    <input type="text" id="cabin" name="cabin" placeholder="e.g., C85 (optional)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="embarked">Port of Embarkation</label>
+                                    <select id="embarked" name="embarked" required>
+                                        <option value="">Select Port</option>
+                                        <option value="C">Cherbourg</option>
+                                        <option value="Q">Queenstown</option>
+                                        <option value="S">Southampton</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Family Information -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-users"></i> Family Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="sibsp">Siblings/Spouses Aboard</label>
+                                    <input type="number" id="sibsp" name="sibsp" min="0" max="10" value="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="parch">Parents/Children Aboard</label>
+                                    <input type="number" id="parch" name="parch" min="0" max="10" value="0" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="predict-btn">
+                        <i class="fas fa-magic"></i>
+                        Predict Survival
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results" class="results-container" style="display: none;">
+                <div class="result-card">
+                    <div class="result-header">
+                        <i id="resultIcon" class="fas fa-heart"></i>
+                        <h2 id="resultTitle">Prediction Result</h2>
+                    </div>
+                    <div class="result-content">
+                        <div class="probability-gauge">
+                            <div class="gauge-container">
+                                <div id="survivalGauge" class="gauge"></div>
+                                <div class="gauge-center">
+                                    <span id="survivalPercentage">0%</span>
+                                    <small>Survival</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user"></i>
+                                <span id="passengerName">Passenger</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-heartbeat"></i>
+                                <span>Survival Probability: <strong id="survivalProb">0%</strong></span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-skull"></i>
+                                <span>Risk Probability: <strong id="deathProb">0%</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Animation -->
+            <div id="loading" class="loading-container" style="display: none;">
+                <div class="loading-spinner">
+                    <i class="fas fa-ship fa-3x"></i>
+                    <p>Analyzing your survival chances...</p>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="error" class="error-container" style="display: none;">
+                <div class="error-card">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Prediction Error</h3>
+                    <p id="errorMessage">Something went wrong. Please try again.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Titanic Survival Predictor | Built with Machine Learning ❤️</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                // Hide loading
+                document.getElementById('loading').style.display = 'none';
+                
+                if (response.ok) {
+                    displayResults(data);
+                } else {
+                    showError(data.error || 'Prediction failed');
+                }
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                showError('Network error. Please try again.');
+            }
+        });
+        
+        function displayResults(data) {
+            const resultsDiv = document.getElementById('results');
+            const survived = data.survived;
+            const survivalProb = Math.round(data.survival_probability * 100);
+            const deathProb = Math.round(data.death_probability * 100);
+            
+            // Update result styling based on outcome
+            const resultCard = resultsDiv.querySelector('.result-card');
+            const resultIcon = document.getElementById('resultIcon');
+            const resultTitle = document.getElementById('resultTitle');
+            
+            if (survived) {
+                resultCard.className = 'result-card survived';
+                resultIcon.className = 'fas fa-heart';
+                resultTitle.textContent = 'You Would Have Survived! 🎉';
+            } else {
+                resultCard.className = 'result-card died';
+                resultIcon.className = 'fas fa-skull';
+                resultTitle.textContent = 'You Would Not Have Survived 😢';
+            }
+            
+            // Update gauge
+            updateGauge(survivalProb);
+            
+            // Update text content
+            document.getElementById('passengerName').textContent = data.passenger_info.name;
+            document.getElementById('survivalProb').textContent = survivalProb + '%';
+            document.getElementById('deathProb').textContent = deathProb + '%';
+            document.getElementById('survivalPercentage').textContent = survivalProb + '%';
+            
+            // Show results
+            resultsDiv.style.display = 'block';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function updateGauge(percentage) {
+            const gauge = document.getElementById('survivalGauge');
+            const rotation = (percentage / 100) * 180 - 90;
+            gauge.style.background = `conic-gradient(
+                from -90deg,
+                #ff4757 0deg,
+                #ffa502 ${rotation + 90}deg,
+                #2ed573 180deg,
+                #e0e0e0 180deg
+            )`;
+        }
+        
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('error').style.display = 'block';
+        }
+        
+        // Auto-fill demo data
+        document.addEventListener('DOMContentLoaded', function() {
+            // You can add demo data here if needed
+        });
+    </script>
+</body>
+</html>

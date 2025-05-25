@@ -1,4 +1,4 @@
-"""Setup script for the Anime Recommendation System package."""
+"""Setup script for the Titanic Survival MLOPS System package."""
 from setuptools import setup, find_packages
 
 with open("requirements.txt") as f:

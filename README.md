@@ -650,21 +650,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 👨‍💻 Author
-
-**Kabyik**
-- GitHub: [@your-github-username](https://github.com/your-github-username)
-- LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/your-profile)
-- Email: your.email@example.com
-
----
-
 ## 🙏 Acknowledgments
 
 - **Kaggle** for the Titanic dataset
 - **Open Source Community** for amazing tools and libraries
 - **MLOps Community** for best practices and patterns
-- **Contributors** who help improve this project
 
 ---
 
